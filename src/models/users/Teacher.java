@@ -2,9 +2,8 @@ package models.users;
 
 import java.util.Objects;
 
-//TODO : toString, equls, hashcode, clone
 
-public class Teacher extends User implements Comparable<Teacher> {
+public class Teacher extends User{
     private int noYearsExperience;
     private float rating;
     protected float salary;
@@ -42,10 +41,11 @@ public class Teacher extends User implements Comparable<Teacher> {
     }
 
     @Override
-    public int compareTo(Teacher o) {
-        if (this.rating < o.rating)
+    public int compareTo(User o) {
+        Teacher obj = (Teacher)o;
+        if (this.rating < obj.rating)
             return -1;
-        else if (this.rating == o.rating)
+        else if (this.rating == obj.rating)
             return 0;
         else
             return 1;

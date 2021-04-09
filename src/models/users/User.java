@@ -3,7 +3,7 @@ package models.users;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public abstract class User {
+public abstract class User implements Comparable<User>{
     protected int id;
     private static int counter = 0;
     private String name;
@@ -95,5 +95,15 @@ public abstract class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, phoneNumber, email, adress, birthday);
+    }
+
+    @Override
+    public int compareTo(User o) {
+        if (this.id < o.id)
+            return -1;
+        else if (this.id == o.id)
+            return 0;
+        else return 1;
+
     }
 }

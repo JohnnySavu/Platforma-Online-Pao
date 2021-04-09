@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.Set;
 
 public class Question {
+    private int id;
+    private static int counter;
     private String questionText;
     private List<String> answerChoices;
     private Set<Integer> correctAnswers;
 
     public Question(String questionText, List<String> answerChoices, Set<Integer> correctAnswers){
+        ++counter;
+        this.id = counter;
         this.questionText = questionText;
         this.answerChoices = answerChoices;
         this.correctAnswers = correctAnswers;

@@ -6,6 +6,8 @@ public class Student extends User{
     private float mathScore;
     private float programmingScore;
 
+
+
     public Student (){
 
 
@@ -23,6 +25,13 @@ public class Student extends User{
         this.mathScore = mathScore;
     }
 
+    public float getProgrammingScore() {
+        return programmingScore;
+    }
+
+    public void setProgrammingScore(float programmingScore) {
+        this.programmingScore = programmingScore;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
