@@ -15,5 +15,7 @@ public enum Menu {
     PRINT_QUIZZ,
     SET_QUIZ_PROGRAMMING,
     SET_QUIZ_MATH,
+    ENROLL_STUDENT,
+    DISENROLL_STUDENT,
     EXIT
 }

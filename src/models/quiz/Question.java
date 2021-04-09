@@ -3,7 +3,7 @@ package models.quiz;
 import java.util.List;
 import java.util.Set;
 
-public class Question {
+public class Question implements Cloneable{
     private int id;
     private static int counter;
     private String questionText;
@@ -37,7 +37,7 @@ public class Question {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 }

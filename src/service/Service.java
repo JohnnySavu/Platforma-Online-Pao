@@ -1,8 +1,10 @@
 package service;
 
 import models.courses.Course;
+import models.courses.Enrollment;
 import models.courses.MathCourse;
 import models.courses.ProgrammingCourse;
+import models.exceptions.NoSuchCourseException;
 import models.exceptions.NoSuchTeacherException;
 import models.quiz.Question;
 import models.quiz.Quiz;
@@ -27,9 +29,9 @@ public class Service {
     }
 
     private Service(){
-        this.userSet = new TreeSet<User>();
-        this.courseSet = new TreeSet<Course>();
-        this.quizzes = new ArrayList<Quiz>();
+        this.userSet = new TreeSet<>();
+        this.courseSet = new TreeSet<>();
+        this.quizzes = new ArrayList<>();
     }
 
 
@@ -146,13 +148,7 @@ public class Service {
             String question = scanner.nextLine();
             List<String> answers = new ArrayList<String>();
             Set<Integer> correctAnswers = new TreeSet<Integer>();
-
-            for (int i = 0; i < n; ++i) {
-                System.out.println("Introduce answer nb " + i);
-                String answer = scanner.nextLine();
-                answers.add(answer);
-            }
-            System.out.println("Introduce the number of correct answers:");
+            System.out.println("Introuce the number of answers");
             int no;
             while (true) {
                 try {
@@ -163,8 +159,25 @@ public class Service {
                 }
                 break;
             }
+
             for (int i = 0; i < no; ++i) {
-                System.out.println("Introduce the " + i + " correct answer");
+                System.out.println("Introduce answer nb " + (i + 1));
+                String answer = scanner.nextLine();
+                answers.add(answer);
+            }
+            System.out.println("Introduce the number of correct answers:");
+
+            while (true) {
+                try {
+                    no = Integer.parseInt(scanner.nextLine());
+                } catch (final NumberFormatException e) {
+                    System.out.println("Not a number. Try again");
+                    continue;
+                }
+                break;
+            }
+            for (int i = 0; i < no; ++i) {
+                System.out.println("Introduce the " + (i+1) + " correct answer");
                 int aux;
                 while (true) {
                     try {
@@ -201,18 +214,66 @@ public class Service {
             System.out.println(quiz);
     }
 
-    public void setQuizProgramming(int courseId, int quizId){
-        Course course = null;
-        Quiz quiz = null;
+    private ProgrammingCourse getProgrammingCourseById(int id){
+        for (Course course : courseSet)
+            if (course instanceof ProgrammingCourse && course.getId() == id)
+                return (ProgrammingCourse) course;
+        return null;
+    }
 
+    private MathCourse getMathCourseById(int id){
+        for (Course course : courseSet)
+            if (course instanceof MathCourse && course.getId() == id)
+                return (MathCourse) course;
+        return null;
+    }
+
+
+    public void setQuizProgramming(int courseId, int quizId){
+        Course course = getProgrammingCourseById(courseId);
+        Quiz quiz = getQuizById(quizId);
+        if (course == null || quiz == null){
+            System.out.println("Invalid arguments");
+            return;
+        }
+        course.setFinalQuiz(quiz);
     }
 
     public void setQuizMath(int courseId, int quizId){
-        Course course = null;
-        Quiz quiz = null;
+        Course course = getMathCourseById(courseId);
+        Quiz quiz = getQuizById(quizId);
+        if (course == null || quiz == null){
+            System.out.println("Invalid arguments");
+            return;
+        }
+        course.setFinalQuiz(quiz);
+    }
+    private Course getCourseById(int id){
+        for (Course course : courseSet)
+            if (course.getId() == id)
+                return course;
 
-
+        return null;
     }
 
+    public void enrollStudent(int studentId, int courseId){
+        Student student = getStudentById(studentId);
+        Course course = getCourseById(courseId);
+        Enrollment instance = Enrollment.getInstance();
+
+        instance.addToCourse(student, course);
+    }
+
+    public void disenrollStudent(int studentId, int courseId){
+        Student student = getStudentById(studentId);
+        Course course = getCourseById(courseId);
+        Enrollment instance = Enrollment.getInstance();
+        try {
+            instance.removeFromCourse(student, course);
+        }catch(NoSuchCourseException e){
+            System.out.println(e.getMessage());
+        }
+
+    }
 
 }

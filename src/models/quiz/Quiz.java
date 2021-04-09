@@ -1,6 +1,7 @@
 package models.quiz;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Quiz {
@@ -16,13 +17,11 @@ public class Quiz {
         return id;
     }
 
-    public Quiz(List<Question> questionList){
-        this.questionsList = questionList;
-        for (Question ques : questionsList) {
+    public Quiz(List<Question> questions){
+        this.questionsList = new ArrayList<>();
+        for (Question ques : questions) {
             try {
                 this.questionsList.add((Question) ques.clone());
-                ++counter;
-                this.id = counter;
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
