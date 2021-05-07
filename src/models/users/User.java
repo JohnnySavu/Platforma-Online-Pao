@@ -23,6 +23,14 @@ public abstract class User implements Comparable<User>{
         this.email = email;
     }
 
+    public User(String name, String phoneNumber, String email, String adress, LocalDate birthday) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.adress = adress;
+        this.birthday = birthday;
+    }
+
     public int getId() {
         return id;
     }

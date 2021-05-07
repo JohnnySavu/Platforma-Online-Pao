@@ -1,6 +1,7 @@
 package main;
 
 
+import audit.AuditService;
 import models.exceptions.NoSuchTeacherException;
 import service.Service;
 
@@ -11,6 +12,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome! Please introduce your commands below");
         Service platform = Service.getInstance();
+        AuditService audit = AuditService.getInstance();
+
+        platform.loadData(); // load the csvs when the app starts
 
         while (true){
             System.out.println("Command:");
@@ -28,35 +32,45 @@ public class Main {
                 case ADD_NEW_STUDENT:
                     platform.addNewStudent(commandParams[1],
                             commandParams[2], commandParams[3]);
+                    audit.logToCSV("ADD_NEW_STUDENT");
                     break;
                 case ADD_NEW_TEACHER:
                     platform.addNewTeacher(commandParams[1],
                             commandParams[2], commandParams[3]);
+                    audit.logToCSV("ADD_NEW_TEACHER");
                     break;
                 case ADD_NEW_ADMIN:
                     platform.addNewAdmin(commandParams[1],
                             commandParams[2], commandParams[3]);
+                    audit.logToCSV("ADD_NEW_ADMIN");
                     break;
                 case REMOVE_STUDENT:
                     platform.deleteStudent(Integer.parseInt(commandParams[1]));
+                    audit.logToCSV("REMOVE_STUDENT");
                     break;
                 case REMOVE_ADMIN:
                     platform.deleteAdmin(Integer.parseInt(commandParams[1]));
+                    audit.logToCSV("REMOVE_ADMIN");
                     break;
                 case REMOVE_TEACHER:
                     platform.deleteTeacher(Integer.parseInt(commandParams[1]));
+                    audit.logToCSV("REMOVE_TEACHER");
                     break;
                 case PRINT_USERS:
                     platform.printAllUsers();
+                    audit.logToCSV("PRINT_USERS");
                     break;
                 case PRINT_CHEAPEST_COURSES:
                     platform.printCheapestCourses();
+                    audit.logToCSV("PRINT_CHEAPEST_COURSES");
                     break;
                 case PRINT_QUIZZ:
                     platform.printQuizzes();
+                    audit.logToCSV("PRINT_QUIZZ");
                     break;
                 case CREATE_QUIZ:
                     platform.createNewQuiz();
+                    audit.logToCSV("CREATE_QUIZ");
                     break;
                 case ADD_PROGRAMMING_COURSE:
                     int n = commandParams.length;
@@ -77,6 +91,7 @@ public class Main {
                     catch(NoSuchTeacherException e){
                         System.out.println(e.getMessage());
                     }
+                    audit.logToCSV("ADD_PROGRAMMING_COURSE");
                     break;
 
                 case ADD_MATH_COURSE:
@@ -89,24 +104,31 @@ public class Main {
                     catch(NoSuchTeacherException e){
                         System.out.println(e.getMessage());
                     }
+                    audit.logToCSV("ADD_MATH_COURSE");
+                    break;
                 case SET_QUIZ_MATH:
                     platform.setQuizMath(Integer.parseInt(commandParams[1]),
                             Integer.parseInt(commandParams[2]));
+                    audit.logToCSV("SET_QUIZ_MATH");
                     break;
                 case SET_QUIZ_PROGRAMMING:
                     platform.setQuizProgramming(Integer.parseInt(commandParams[1]),
                             Integer.parseInt(commandParams[2]));
+                    audit.logToCSV("SET_QUIZ_PROGRAMMING");
                     break;
                 case ENROLL_STUDENT:
                     platform.enrollStudent(Integer.parseInt(commandParams[1]),
                             Integer.parseInt(commandParams[2]));
+                    audit.logToCSV("ENROLL_STUDENT");
                     break;
                 case DISENROLL_STUDENT:
                     platform.disenrollStudent(Integer.parseInt(commandParams[1]),
                             Integer.parseInt(commandParams[2]));
+                    audit.logToCSV("DISENROLL_STUDENT");
                     break;
                 case EXIT:
                     System.out.println("Program terminated. Exiting...");
+                    audit.logToCSV("EXIT");
                     return;
                 default:
                     System.out.println("ok");

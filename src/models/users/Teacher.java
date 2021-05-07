@@ -1,5 +1,6 @@
 package models.users;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 
@@ -12,6 +13,13 @@ public class Teacher extends User{
 
     public Teacher(String name, String phoneNumber, String email){
         super(name, phoneNumber, email);
+    }
+
+    public Teacher(String name, String phoneNumber, String email, String adress, LocalDate birthday, int noYearsExperience, float rating, float salary) {
+        super(name, phoneNumber, email, adress, birthday);
+        this.noYearsExperience = noYearsExperience;
+        this.rating = rating;
+        this.salary = salary;
     }
 
     public int getNoYearsExperience() {

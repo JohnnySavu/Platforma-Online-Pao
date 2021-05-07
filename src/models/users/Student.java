@@ -1,5 +1,6 @@
 package models.users;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Student extends User{
@@ -15,6 +16,12 @@ public class Student extends User{
 
     public Student(String name, String phoneNumber, String email){
         super(name, phoneNumber, email);
+    }
+
+    public Student(String name, String phoneNumber, String email, String adress, LocalDate birthday, float mathScore, float programmingScore) {
+        super(name, phoneNumber, email, adress, birthday);
+        this.mathScore = mathScore;
+        this.programmingScore = programmingScore;
     }
 
     public float getMathScore() {

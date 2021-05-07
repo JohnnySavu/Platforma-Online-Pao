@@ -1,5 +1,6 @@
 package service;
 
+import audit.AuditService;
 import models.courses.Course;
 import models.courses.Enrollment;
 import models.courses.MathCourse;
@@ -13,6 +14,8 @@ import models.users.Student;
 import models.users.Teacher;
 import models.users.User;
 
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Service {
@@ -20,7 +23,17 @@ public class Service {
     private TreeSet<User> userSet;
     private List<Quiz> quizzes;
 
+    public static ReadingFromFileService readingCSV = ReadingFromFileService.getInstance();
+    public static WritingInFileService writingCSV = WritingInFileService.getInstance();
+    public static AuditService audit = AuditService.getInstance();
+
     public static Service instance;
+
+    public static StudentService studentService = StudentService.getInstance();
+    public static TeacherService teacherService = TeacherService.getInstance();
+    public static QuestionService questionService = QuestionService.getInstance();
+    public static MathCourseService mathCourseService = MathCourseService.getInstance();
+    public static ProgrammingCourseService programmingCourseService = ProgrammingCourseService.getInstance();
 
     public static Service getInstance(){
         if (instance == null)
@@ -34,15 +47,43 @@ public class Service {
         this.quizzes = new ArrayList<>();
     }
 
+    public LocalDate randomBirthday() {
+        Random random = new Random();
+        int minDay = (int) LocalDate.of(1900, 1, 1).toEpochDay();
+        int maxDay = (int) LocalDate.of(2015, 1, 1).toEpochDay();
+        long randomDay = minDay + random.nextInt(maxDay - minDay);
+        LocalDate randomBirthDate = LocalDate.ofEpochDay(randomDay);
+        return randomBirthDate;
+
+    }
+
+    public float randomScores() {
+        Random random = new Random();
+        return random.nextFloat() * random.nextInt(10) + 1;
+
+    }
+    public float randomSalary() {
+        Random random = new Random();
+        return random.nextFloat() * random.nextInt(2500) + 1;
+
+    }
+
+    public int randomInt() {
+        Random random = new Random();
+        return random.nextInt();
+
+    }
 
     public void addNewStudent(String nume, String phoneNumber, String email){
         Student aux = new Student(nume, phoneNumber, email);
         userSet.add(aux);
+        studentService.addStudent(nume,phoneNumber,email," ", randomBirthday(),randomScores(),randomScores());
     }
 
     public void addNewTeacher(String nume, String phoneNumber, String email){
         Teacher aux = new Teacher(nume, phoneNumber, email);
         userSet.add(aux);
+        teacherService.addTeacher(nume,phoneNumber,email," ",randomBirthday(),randomInt(),randomScores(),randomSalary());
     }
 
     public void addNewAdmin(String nume, String phoneNumber, String email){
@@ -96,7 +137,7 @@ public class Service {
         return null;
     }
 
-    private Teacher getTeacherById(int id){
+    public Teacher getTeacherById(int id){
         for (User user : userSet)
             if (user instanceof Teacher && user.getId() == id)
                 return (Teacher)user;
@@ -104,13 +145,14 @@ public class Service {
     }
 
     public void addNewMathCourse(String name, int noHours, float price, String subject, int teacherId)
-                                                                        throws NoSuchTeacherException {
+            throws NoSuchTeacherException {
         Teacher teacher = getTeacherById(teacherId);
         if (teacher == null)
             throw new NoSuchTeacherException("No teacher with this id");
 
         Course newCourse = new MathCourse(name, noHours, price, subject, teacher);
         courseSet.add(newCourse);
+        mathCourseService.addMathCourse(name,noHours,price,subject,teacherId);
     }
 
     public void addNewProgrammingCourse(String name, int noHours, float price, List<String> projectsRequirments,
@@ -121,9 +163,10 @@ public class Service {
             throw new NoSuchTeacherException("No teacher with this id");
 
         Course newCourse = new ProgrammingCourse(name, noHours, price, projectsRequirments,
-                                                  noProjects, programmingLanguage, teacher);
+                noProjects, programmingLanguage, teacher);
 
         courseSet.add(newCourse);
+        programmingCourseService.addProgrammingCourse(name,noHours,price,projectsRequirments,noProjects,programmingLanguage,teacherId);
     }
 
     public void createNewQuiz(){
@@ -134,7 +177,7 @@ public class Service {
 
         while (true) {
             try {
-            n = Integer.parseInt(scanner.nextLine());
+                n = Integer.parseInt(scanner.nextLine());
             } catch (final NumberFormatException e) {
                 System.out.println("Not a number. Try again");
                 continue;
@@ -192,6 +235,7 @@ public class Service {
             }
             Question auxQuestion = new Question(question, answers, correctAnswers);
             questionList.add(auxQuestion);
+            questionService.addQuestionService(question,answers,correctAnswers);
         }
         Quiz quiz = new Quiz(questionList);
         quizzes.add(quiz);
@@ -273,6 +317,20 @@ public class Service {
         }catch(NoSuchCourseException e){
             System.out.println(e.getMessage());
         }
+
+    }
+
+    public void loadData() {
+        try {
+            studentService.readStudent();
+            teacherService.readTeacher();
+            questionService.readQuestionService();
+            mathCourseService.readMathCourse();
+            programmingCourseService.readProgrammingCourse();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
