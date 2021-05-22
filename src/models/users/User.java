@@ -5,12 +5,13 @@ import java.util.Objects;
 
 public abstract class User implements Comparable<User>{
     protected int id;
-    private static int counter = 0;
+    public static int counter = 0;
     private String name;
     protected String phoneNumber;
     protected String email;
-    protected String adress;
+    protected String adress = "Empty";
     protected LocalDate birthday;
+
 
     public User(){
         this.id = User.counter;
@@ -18,17 +19,21 @@ public abstract class User implements Comparable<User>{
     }
 
     public User(String name, String phoneNumber, String email){
+        this.id = User.counter;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        ++User.counter;
     }
 
     public User(String name, String phoneNumber, String email, String adress, LocalDate birthday) {
+        this.id = User.counter;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.adress = adress;
         this.birthday = birthday;
+        ++User.counter;
     }
 
     public int getId() {

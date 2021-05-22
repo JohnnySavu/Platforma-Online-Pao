@@ -15,6 +15,19 @@ public class Main {
         AuditService audit = AuditService.getInstance();
 
         platform.loadData(); // load the csvs when the app starts
+        System.out.println("COMMANDS:");
+        System.out.println("1. ADD_NEW_STUDENT NAME PHONE_NUMBER EMAIL_ADRESS");
+        System.out.println("2. ADD_NEW_TEACHER NAME PHONE_NUMBER EMAIL_ADRESS");
+        System.out.println("3. ADD_NEW_ADMIN NAME PHONE_NUMBER EMAIL_ADRESS");
+        System.out.println("4. REMOVE_STUDENT ID");
+        System.out.println("5. REMOVE_TEACHER ID");
+        System.out.println("6. REMOVE_ADMIN ID");
+        System.out.println("7. PRINT_USERS");
+        System.out.println("8. PRINT_CHEAPEST_COURSES");
+        System.out.println("9. PRINT QUIZ");
+        System.out.println("10. ADD_PROGRAMMING_COURSE HOURS PRICE PROJECT_REQ NO_PROJECTS LANGUAGE TEACHER_ID");
+        System.out.println("11. ADD_MATH_COURSE NAME HOURS PRICE SUBJECT TEACHER_ID");
+
 
         while (true){
             System.out.println("Command:");

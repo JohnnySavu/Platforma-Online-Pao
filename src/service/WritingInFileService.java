@@ -31,13 +31,17 @@ public class WritingInFileService {
     public void csvWrite(String csvToWrite, List<String> rowToAdd) {
         Path p = Paths.get(csvToWrite);
         try(BufferedWriter writer = new BufferedWriter((Files.newBufferedWriter(p,CREATE,APPEND)))){
-            for(String elem : rowToAdd) {
-                writer.append(String.join(", ", elem));
-                writer.append("\n");
-
+            for(int i = 0 ; i < rowToAdd.size(); ++i) {
+                writer.append(rowToAdd.get(i));
+                if (i == rowToAdd.size() - 1)
+                    writer.append("\n");
+                else
+                    writer.append(", ");
             }
+            writer.flush();
 
         }catch(IOException e) {
+
             System.out.println(e.getMessage());
         }
     }

@@ -37,14 +37,14 @@ public class QuestionService {
         }
         newRow.add(corrects);
 
-        WritingInFileService.getInstance().csvWrite("../resources/questionServices.csv", newRow);
+        WritingInFileService.getInstance().csvWrite("src/resources/questionServices.csv", newRow);
 
         System.out.println("\nThe QuestionService was written to the csv file\n");
     }
 
     public void readQuestionService() throws ParseException {
         ReadingFromFileService rffs = ReadingFromFileService.getInstance();
-        List<List<String>> content = rffs.csvContent("../resources/questionServices.csv");
+        List<List<String>> content = rffs.csvContent("src/resources/questionServices.csv");
         for (List<String> lst: content) {
             String questionText = lst.get(0);
             List<String> answerChoices = new ArrayList<>();

@@ -76,14 +76,22 @@ public class Service {
 
     public void addNewStudent(String nume, String phoneNumber, String email){
         Student aux = new Student(nume, phoneNumber, email);
+        aux.setBirthday(randomBirthday());
+        aux.setMathScore(randomScores());
+        aux.setProgrammingScore(randomScores());
+        aux.setAdress("None");
         userSet.add(aux);
-        studentService.addStudent(nume,phoneNumber,email," ", randomBirthday(),randomScores(),randomScores());
+        studentService.addStudent(aux);
     }
 
     public void addNewTeacher(String nume, String phoneNumber, String email){
         Teacher aux = new Teacher(nume, phoneNumber, email);
+        aux.setBirthday(randomBirthday());
+        aux.setNoYearsExperience(randomInt() % 10);
+        aux.setRating(randomScores());
+        aux.setSalary(randomSalary());
         userSet.add(aux);
-        teacherService.addTeacher(nume,phoneNumber,email," ",randomBirthday(),randomInt(),randomScores(),randomSalary());
+        teacherService.addTeacher(aux);
     }
 
     public void addNewAdmin(String nume, String phoneNumber, String email){
@@ -150,9 +158,9 @@ public class Service {
         if (teacher == null)
             throw new NoSuchTeacherException("No teacher with this id");
 
-        Course newCourse = new MathCourse(name, noHours, price, subject, teacher);
+        MathCourse newCourse = new MathCourse(name, noHours, price, subject, teacher);
         courseSet.add(newCourse);
-        mathCourseService.addMathCourse(name,noHours,price,subject,teacherId);
+        mathCourseService.addMathCourse(newCourse);
     }
 
     public void addNewProgrammingCourse(String name, int noHours, float price, List<String> projectsRequirments,
@@ -162,11 +170,11 @@ public class Service {
         if (teacher == null)
             throw new NoSuchTeacherException("No teacher with this id");
 
-        Course newCourse = new ProgrammingCourse(name, noHours, price, projectsRequirments,
+        ProgrammingCourse newCourse = new ProgrammingCourse(name, noHours, price, projectsRequirments,
                 noProjects, programmingLanguage, teacher);
 
         courseSet.add(newCourse);
-        programmingCourseService.addProgrammingCourse(name,noHours,price,projectsRequirments,noProjects,programmingLanguage,teacherId);
+        programmingCourseService.addProgrammingCourse(newCourse);
     }
 
     public void createNewQuiz(){
@@ -322,11 +330,20 @@ public class Service {
 
     public void loadData() {
         try {
+            //TODO -> sa bag listele in seturi
             studentService.readStudent();
+            userSet.addAll(StudentService.studentList);
+
             teacherService.readTeacher();
+            userSet.addAll(TeacherService.teacherList);
+
             questionService.readQuestionService();
+
             mathCourseService.readMathCourse();
+            courseSet.addAll(MathCourseService.MathCourseList);
+
             programmingCourseService.readProgrammingCourse();
+            courseSet.addAll(ProgrammingCourseService.ProgrammingCourseList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -38,6 +38,10 @@ public class Teacher extends User{
         this.rating = rating;
     }
 
+    public void setSalary(float salary) {
+        this.salary = salary;
+    }
+
     public float getSalary(){
         return this.salary;
     }
@@ -50,6 +54,8 @@ public class Teacher extends User{
 
     @Override
     public int compareTo(User o) {
+        if (o instanceof Student)
+            return 1;
         Teacher obj = (Teacher)o;
         if (this.rating < obj.rating)
             return -1;

@@ -21,25 +21,25 @@ public class MathCourseService {
         return instance;
     }
 
-    public void addMathCourse(String name, int noHours, float price, String subject, int teacherId)  {
-        MathCourseList.add(new MathCourse(name, noHours, price, subject, Service.getInstance().getTeacherById(teacherId)));
+    public void addMathCourse(MathCourse course)  {
+        MathCourseList.add(course);
 
         List<String> newRow = new ArrayList<>();
-        newRow.add(String.valueOf(MathCourseList.get(MathCourseList.size() - 1).getId()));
-        newRow.add(name);
-        newRow.add(String.valueOf(noHours));
-        newRow.add(String.valueOf(price));
-        newRow.add(subject);
-        newRow.add(String.valueOf(teacherId));
+        newRow.add(String.valueOf(course.getId()));
+        newRow.add(course.getName());
+        newRow.add(String.valueOf(course.getNoHours()));
+        newRow.add(String.valueOf(course.getPrice()));
+        newRow.add(course.getSubject());
+        newRow.add(String.valueOf(course.getTeacher().getId()));
 
-        WritingInFileService.getInstance().csvWrite("../resources/mathCourses.csv", newRow);
+        WritingInFileService.getInstance().csvWrite("src/resources/mathCourses.csv", newRow);
 
         System.out.println("\nThe MathCourse was written to the csv file\n");
     }
 
     public void readMathCourse() throws ParseException {
         ReadingFromFileService rffs = ReadingFromFileService.getInstance();
-        List<List<String>> content = rffs.csvContent("../resources/mathCourses.csv");
+        List<List<String>> content = rffs.csvContent("src/resources/mathCourses.csv");
         for (List<String> lst: content) {
             int id = Integer.parseInt(lst.get(0));
             String name = lst.get(1);

@@ -17,6 +17,10 @@ public class MathCourse extends Course{
         this.subject = subject;
     }
 
+    public String getSubject() {
+        return subject;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

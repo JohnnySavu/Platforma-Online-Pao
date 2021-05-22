@@ -2,6 +2,7 @@ package service;
 
 import models.courses.ProgrammingCourse;
 import models.users.Teacher;
+import models.users.User;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -20,32 +21,30 @@ public class ProgrammingCourseService {
         return instance;
     }
 
-    public void addProgrammingCourse(String name, int noHours, float price, List<String> projectsRequirments,
-                                        int noProjects, String programmingLanguage, int id)  {
-        ProgrammingCourseList.add(new ProgrammingCourse(name, noHours, price, projectsRequirments,
-                                                        noProjects, programmingLanguage, Service.getInstance().getTeacherById(id)));
+    public void addProgrammingCourse(ProgrammingCourse course)  {
+        ProgrammingCourseList.add(course);
 
         List<String> newRow = new ArrayList<>();
-        newRow.add(String.valueOf(ProgrammingCourseList.get(ProgrammingCourseList.size() - 1).getId()));//id = the latest index in the list
-        newRow.add(name);
-        newRow.add(String.valueOf(noHours));
-        newRow.add(String.valueOf(price));
-        newRow.add(programmingLanguage);
-        newRow.add(String.valueOf(id));
-        newRow.add(String.valueOf(noProjects));
+        newRow.add(String.valueOf(course.getId()));//id = the latest index in the list
+        newRow.add(course.getName());
+        newRow.add(String.valueOf(course.getNoHours()));
+        newRow.add(String.valueOf(course.getPrice()));
+        newRow.add(course.getProgrammingLanguage());
+        newRow.add(String.valueOf(course.getTeacher().getId()));
+        newRow.add(String.valueOf(course.getNoProjects()));
 
-        for (var requirement : projectsRequirments) {
+        for (var requirement : course.getProjectsRequirments()) {
             newRow.add(requirement);
         }
 
-        WritingInFileService.getInstance().csvWrite("../resources/programmingCourses.csv", newRow);
+        WritingInFileService.getInstance().csvWrite("src/resources/programmingCourses.csv", newRow);
 
         System.out.println("\nThe ProgrammingCourse was written to the csv file\n");
     }
 
     public void readProgrammingCourse() throws ParseException {
         ReadingFromFileService rffs = ReadingFromFileService.getInstance();
-        List<List<String>> content = rffs.csvContent("../resources/programmingCourses.csv");
+        List<List<String>> content = rffs.csvContent("src/resources/programmingCourses.csv");
         for (List<String> lst: content) {
             int id = Integer.parseInt(lst.get(0));
             String name = lst.get(1);
@@ -56,12 +55,12 @@ public class ProgrammingCourseService {
             int noProjects = Integer.parseInt(lst.get(6));
             List<String> projectRequirements = new ArrayList<>();
             if(noProjects > 0)
-                for(int i = 7; i < lst.size(); ++i) {
+                for(int i = 0; i < lst.size(); ++i) {
                     projectRequirements.add(lst.get(i));
                 }
 
             ProgrammingCourseList.add(new ProgrammingCourse( name, noHours, price, projectRequirements,
-                                        noProjects, programmingLanguage, Service.getInstance().getTeacherById(id)));
+                                        noProjects, programmingLanguage, Service.getInstance().getTeacherById(idTeacher)));
 
         }
     }       
