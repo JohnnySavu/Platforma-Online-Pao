@@ -58,9 +58,11 @@ public class ProgrammingCourseService {
                 for(int i = 0; i < lst.size(); ++i) {
                     projectRequirements.add(lst.get(i));
                 }
-
-            ProgrammingCourseList.add(new ProgrammingCourse( name, noHours, price, projectRequirements,
-                                        noProjects, programmingLanguage, Service.getInstance().getTeacherById(idTeacher)));
+            ProgrammingCourse aux = new ProgrammingCourse( name, noHours, price, projectRequirements,
+                    noProjects, programmingLanguage, Service.getInstance().getTeacherById(idTeacher));
+            ProgrammingCourse.setCounter(id);
+            aux.setId(id);
+            ProgrammingCourseList.add(aux);
 
         }
     }       

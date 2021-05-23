@@ -23,6 +23,11 @@ public class ReadingFromFileService {
         }
         return instance;
     }
+    public List<String> databaseContent(String info){
+        List<String> row = List.of(info.split(", "));
+        return row;
+    }
+
 
     //generalising the reader service in order to work for every model
     public List<List<String>>  csvContent(String csvToRead) {

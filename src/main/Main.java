@@ -5,10 +5,19 @@ import audit.AuditService;
 import models.exceptions.NoSuchTeacherException;
 import service.Service;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 public class Main {
+
+    public static int tip_salvare = 1;
+
     public static void main(String[] args) {
+
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome! Please introduce your commands below");
         Service platform = Service.getInstance();

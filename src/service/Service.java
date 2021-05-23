@@ -1,6 +1,7 @@
 package service;
 
 import audit.AuditService;
+import main.Main;
 import models.courses.Course;
 import models.courses.Enrollment;
 import models.courses.MathCourse;
@@ -13,6 +14,10 @@ import models.users.Admin;
 import models.users.Student;
 import models.users.Teacher;
 import models.users.User;
+import repository.MathCourseRepository;
+import repository.ProgrammingCourseRepository;
+import repository.StudentRepository;
+import repository.TeacherRepository;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -81,7 +86,10 @@ public class Service {
         aux.setProgrammingScore(randomScores());
         aux.setAdress("None");
         userSet.add(aux);
-        studentService.addStudent(aux);
+        if (Main.tip_salvare == 1)
+            StudentRepository.save(aux);
+        else
+            studentService.addStudent(aux);
     }
 
     public void addNewTeacher(String nume, String phoneNumber, String email){
@@ -91,7 +99,10 @@ public class Service {
         aux.setRating(randomScores());
         aux.setSalary(randomSalary());
         userSet.add(aux);
-        teacherService.addTeacher(aux);
+        if (Main.tip_salvare == 1)
+            TeacherRepository.save(aux);
+        else
+            teacherService.addTeacher(aux);
     }
 
     public void addNewAdmin(String nume, String phoneNumber, String email){
@@ -112,6 +123,7 @@ public class Service {
         if (student == null)
             System.out.println("No such student");
         else
+            StudentRepository.delete(student.getId());
             userSet.remove(student);
     }
 
@@ -120,6 +132,7 @@ public class Service {
         if (teacher == null)
             System.out.println("No such teacher");
         else
+            TeacherRepository.delete(teacher.getId());
             userSet.remove(teacher);
     }
 
@@ -160,7 +173,10 @@ public class Service {
 
         MathCourse newCourse = new MathCourse(name, noHours, price, subject, teacher);
         courseSet.add(newCourse);
-        mathCourseService.addMathCourse(newCourse);
+        if (Main.tip_salvare == 1)
+            MathCourseRepository.save(newCourse);
+        else
+            mathCourseService.addMathCourse(newCourse);
     }
 
     public void addNewProgrammingCourse(String name, int noHours, float price, List<String> projectsRequirments,
@@ -174,7 +190,10 @@ public class Service {
                 noProjects, programmingLanguage, teacher);
 
         courseSet.add(newCourse);
-        programmingCourseService.addProgrammingCourse(newCourse);
+        if (Main.tip_salvare == 1)
+            ProgrammingCourseRepository.save(newCourse);
+        else
+            programmingCourseService.addProgrammingCourse(newCourse);
     }
 
     public void createNewQuiz(){
@@ -330,9 +349,10 @@ public class Service {
 
     public void loadData() {
         try {
-            //TODO -> sa bag listele in seturi
-            studentService.readStudent();
-            userSet.addAll(StudentService.studentList);
+
+            //studentService.readStudent();
+            //userSet.addAll(StudentService.studentList);
+            userSet.addAll(StudentRepository.load());
 
             teacherService.readTeacher();
             userSet.addAll(TeacherService.teacherList);

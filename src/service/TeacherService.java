@@ -53,8 +53,10 @@ public class TeacherService {
             int noYearsExperience = Integer.parseInt(lst.get(6));
             float rating = Float.parseFloat(lst.get(7));
             float salary = Float.parseFloat(lst.get(8));
-
-            teacherList.add(new Teacher(name, phoneNumber, email, address, birthDay, noYearsExperience, rating, salary));
+            Teacher aux = new Teacher(name, phoneNumber, email, address, birthDay, noYearsExperience, rating, salary);
+            aux.setId(id);
+            Teacher.setCounter(id);
+            teacherList.add(aux);
 
         }
     }

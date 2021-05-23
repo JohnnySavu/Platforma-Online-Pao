@@ -49,7 +49,9 @@ public abstract class User implements Comparable<User>{
     }
 
     public static void setCounter(int counter) {
-        User.counter = counter;
+        ++counter;
+        if(User.counter < counter)
+            User.counter = counter;
     }
 
     public String getName() {
@@ -94,7 +96,7 @@ public abstract class User implements Comparable<User>{
 
     @Override
     public String toString(){
-        return "Name: " + this.name + "\n Email: " + this.email + "\n Phone number: " + this.phoneNumber + "\n";
+        return "ID " + this.id + "\n Name: " + this.name + "\n Email: " + this.email + "\n Phone number: " + this.phoneNumber + "\n";
     }
 
     @Override

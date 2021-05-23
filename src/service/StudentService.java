@@ -53,8 +53,10 @@ public class StudentService {
             LocalDate birthDay = LocalDate.parse(lst.get(5), formatter);
             float mathScore = Float.parseFloat(lst.get(6));
             float programmingScore = Float.parseFloat(lst.get(7));
-
-            studentList.add(new Student(name,phoneNumber,email,adress,birthDay,mathScore,programmingScore));
+            Student aux = new Student(name,phoneNumber,email,adress,birthDay,mathScore,programmingScore);
+            aux.setId(id);
+            Student.setCounter(id);
+            studentList.add(aux);
 
         }
 

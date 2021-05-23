@@ -61,7 +61,9 @@ public abstract class Course implements Comparable<Course>{
     }
 
     public static void setCounter(int counter) {
-        Course.counter = counter;
+        ++counter;
+        if (Course.counter < counter)
+            Course.counter = counter;
     }
 
     public String getName() {

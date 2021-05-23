@@ -28,6 +28,18 @@ public class WritingInFileService {
         return instance;
     }
 
+    public String databaseWrite(List<String> rowToAdd){
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i  <rowToAdd.size(); ++i){
+            ans.append(rowToAdd.get(i));
+            if (i == rowToAdd.size() - 1)
+                ans.append("\n");
+            else
+                ans.append(", ");
+        }
+        return ans.toString();
+    }
+
     public void csvWrite(String csvToWrite, List<String> rowToAdd) {
         Path p = Paths.get(csvToWrite);
         try(BufferedWriter writer = new BufferedWriter((Files.newBufferedWriter(p,CREATE,APPEND)))){
