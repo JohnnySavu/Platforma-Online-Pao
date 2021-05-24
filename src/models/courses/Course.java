@@ -103,7 +103,7 @@ public abstract class Course implements Comparable<Course>{
 
     @Override
     public String toString(){
-        return "ID:" + this.id + "\n Nume:" + this.name +
+        return "ID:" + this.id + "\n Nume:" + this.name + "\n" +
                 "Duration of the course in hours : " + this.noHours + "\n" + " Price: " + this.price;
     }
 

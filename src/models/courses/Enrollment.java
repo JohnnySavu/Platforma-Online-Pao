@@ -24,23 +24,27 @@ public class Enrollment {
         coursesList = new HashMap<Integer, List<Integer>>();
     }
 
-    public void addToCourse(Student student, Course course){
+    public List<Integer> getCourses(int id){
+        return coursesList.get(id);
+    }
 
-        List<Integer> newList = coursesList.get(student.getId());
+    public void addToCourse(int studentId, int courseId){
+
+        List<Integer> newList = coursesList.get(studentId);
         if (newList == null)
             newList = new ArrayList<Integer>();
 
-        newList.add(course.getId());
+        newList.add(courseId);
 
-        coursesList.put(student.getId(), newList);
+        coursesList.put(studentId, newList);
     }
 
-    public void removeFromCourse(Student student, Course course) throws NoSuchCourseException {
-        List<Integer> auxList = coursesList.get(student.getId());
-        if (auxList == null || !auxList.contains(course.getId()))
+    public void removeFromCourse(int studentId, int courseId) throws NoSuchCourseException {
+        List<Integer> auxList = coursesList.get(studentId);
+        if (auxList == null || !auxList.contains(courseId))
             throw new NoSuchCourseException("No such course for this user");
 
-        auxList.remove(course.getId());
+        auxList.remove(courseId);
     }
 
 }

@@ -2,6 +2,7 @@ package main;
 
 
 import audit.AuditService;
+import jdk.swing.interop.SwingInterOpUtils;
 import models.exceptions.NoSuchTeacherException;
 import service.Service;
 
@@ -27,15 +28,18 @@ public class Main {
         System.out.println("COMMANDS:");
         System.out.println("1. ADD_NEW_STUDENT NAME PHONE_NUMBER EMAIL_ADRESS");
         System.out.println("2. ADD_NEW_TEACHER NAME PHONE_NUMBER EMAIL_ADRESS");
-        System.out.println("3. ADD_NEW_ADMIN NAME PHONE_NUMBER EMAIL_ADRESS");
         System.out.println("4. REMOVE_STUDENT ID");
         System.out.println("5. REMOVE_TEACHER ID");
-        System.out.println("6. REMOVE_ADMIN ID");
-        System.out.println("7. PRINT_USERS");
-        System.out.println("8. PRINT_CHEAPEST_COURSES");
-        System.out.println("9. PRINT QUIZ");
-        System.out.println("10. ADD_PROGRAMMING_COURSE HOURS PRICE PROJECT_REQ NO_PROJECTS LANGUAGE TEACHER_ID");
-        System.out.println("11. ADD_MATH_COURSE NAME HOURS PRICE SUBJECT TEACHER_ID");
+        System.out.println("6. ADD_PROGRAMMING_COURSE NAME HOURS PRICE PROJECT_REQ NO_PROJECTS LANGUAGE TEACHER_ID");
+        System.out.println("7. ADD_MATH_COURSE NAME HOURS PRICE SUBJECT TEACHER_ID");
+        System.out.println("8. PRINT_USERS");
+        System.out.println("9. PRINT_COURSES");
+        System.out.println("9. PRINT_CHEAPEST_COURSES");
+        System.out.println("10. PRINT QUIZ");
+        System.out.println("11. ENROLL_STUDENT ID_STUDENT ID_COURSE");
+        System.out.println("12. DISENROLL_STUDENT ID_STUDENT ID_COURSE");
+        System.out.println("13. PRINT_STUDENT_COURSES ID_USER");
+
 
 
         while (true){
@@ -115,7 +119,10 @@ public class Main {
                     }
                     audit.logToCSV("ADD_PROGRAMMING_COURSE");
                     break;
-
+                case PRINT_STUDENT_COURSES:
+                    int sudentId = Integer.parseInt(commandParams[1]);
+                    platform.printStudentCourses(sudentId);
+                    break;
                 case ADD_MATH_COURSE:
                     try {
                         platform.addNewMathCourse(commandParams[1],
@@ -147,6 +154,9 @@ public class Main {
                     platform.disenrollStudent(Integer.parseInt(commandParams[1]),
                             Integer.parseInt(commandParams[2]));
                     audit.logToCSV("DISENROLL_STUDENT");
+                    break;
+                case PRINT_COURSES:
+                    platform.printAllCourses();
                     break;
                 case EXIT:
                     System.out.println("Program terminated. Exiting...");

@@ -57,6 +57,7 @@ public class MathCourseRepository {
                 int noHours = Integer.parseInt(lst.get(2));
                 float price= Float.parseFloat(lst.get(3));
                 String subject = lst.get(4);
+                System.out.println(lst.get(5));
                 int idTeacher = Integer.parseInt(lst.get(5));
                 MathCourse aux = new MathCourse(name, noHours, price, subject, Service.getInstance().getTeacherById(idTeacher));
                 MathCourse.setCounter(id);

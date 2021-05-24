@@ -14,10 +14,7 @@ import models.users.Admin;
 import models.users.Student;
 import models.users.Teacher;
 import models.users.User;
-import repository.MathCourseRepository;
-import repository.ProgrammingCourseRepository;
-import repository.StudentRepository;
-import repository.TeacherRepository;
+import repository.*;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -103,6 +100,17 @@ public class Service {
             TeacherRepository.save(aux);
         else
             teacherService.addTeacher(aux);
+    }
+
+    public void printStudentCourses(int id){
+        List<Integer> courses =  Enrollment.getInstance().getCourses(id);
+        System.out.println("Courses for this student are : ");
+        if (courses != null){
+            for (int idCourse :courses){
+                Course course = getCourseById(idCourse);
+                System.out.println(course);
+            }
+        }
     }
 
     public void addNewAdmin(String nume, String phoneNumber, String email){
@@ -332,7 +340,10 @@ public class Service {
         Course course = getCourseById(courseId);
         Enrollment instance = Enrollment.getInstance();
 
-        instance.addToCourse(student, course);
+        instance.addToCourse(student.getId(), course.getId());
+        if (Main.tip_salvare == 1){
+            EnrollmentRepository.add(student.getId(), course.getId());
+        }
     }
 
     public void disenrollStudent(int studentId, int courseId){
@@ -340,30 +351,47 @@ public class Service {
         Course course = getCourseById(courseId);
         Enrollment instance = Enrollment.getInstance();
         try {
-            instance.removeFromCourse(student, course);
+            instance.removeFromCourse(student.getId(), course.getId());
+            if (Main.tip_salvare == 1){
+                EnrollmentRepository.delete(student.getId(), course.getId());
+            }
         }catch(NoSuchCourseException e){
             System.out.println(e.getMessage());
         }
 
     }
 
+    public void printAllCourses(){
+        for (var course : courseSet){
+            System.out.println(course.toString());
+        }
+    }
+
     public void loadData() {
         try {
+            if (Main.tip_salvare == 1){
+                userSet.addAll(StudentRepository.load());
+                userSet.addAll(TeacherRepository.load());
+                courseSet.addAll(MathCourseRepository.load());
+                courseSet.addAll(ProgrammingCourseRepository.load());
+                EnrollmentRepository.load();
+            }
+            else{
+                studentService.readStudent();
+                userSet.addAll(StudentService.studentList);
 
-            //studentService.readStudent();
-            //userSet.addAll(StudentService.studentList);
-            userSet.addAll(StudentRepository.load());
+                teacherService.readTeacher();
+                userSet.addAll(TeacherService.teacherList);
 
-            teacherService.readTeacher();
-            userSet.addAll(TeacherService.teacherList);
+                questionService.readQuestionService();
 
-            questionService.readQuestionService();
+                mathCourseService.readMathCourse();
+                courseSet.addAll(MathCourseService.MathCourseList);
 
-            mathCourseService.readMathCourse();
-            courseSet.addAll(MathCourseService.MathCourseList);
+                programmingCourseService.readProgrammingCourse();
+                courseSet.addAll(ProgrammingCourseService.ProgrammingCourseList);
+            }
 
-            programmingCourseService.readProgrammingCourse();
-            courseSet.addAll(ProgrammingCourseService.ProgrammingCourseList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

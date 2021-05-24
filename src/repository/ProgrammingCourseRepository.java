@@ -1,6 +1,7 @@
 package repository;
 
 import config.Database;
+import jdk.swing.interop.SwingInterOpUtils;
 import models.courses.ProgrammingCourse;
 import service.ReadingFromFileService;
 import service.Service;
@@ -57,6 +58,8 @@ public class ProgrammingCourseRepository {
                 float price= Float.parseFloat(lst.get(3));
                 String programmingLanguage = lst.get(4);
                 int idTeacher = Integer.parseInt(lst.get(5));
+                System.out.println(lst.get(6));
+                System.out.println("---------");
                 int noProjects = Integer.parseInt(lst.get(6));
                 List<String> projectRequirements = new ArrayList<>();
                 if(noProjects > 0)

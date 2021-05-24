@@ -33,7 +33,7 @@ public class WritingInFileService {
         for (int i = 0; i  <rowToAdd.size(); ++i){
             ans.append(rowToAdd.get(i));
             if (i == rowToAdd.size() - 1)
-                ans.append("\n");
+                ans.append("");
             else
                 ans.append(", ");
         }
