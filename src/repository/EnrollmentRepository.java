@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnrollmentRepository {
+    private EnrollmentRepository() {};
+
     public static void add(int studentId, int courseId){
         try(Connection connection = Database.getDatabase()){
             String query = "Insert into enrollment (id_student, id_course) VALUES(?, ?)";

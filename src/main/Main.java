@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Main {
 
-    public static int tip_salvare = 1;
+    public static int tip_salvare = 0;
 
     public static void main(String[] args) {
 
@@ -35,10 +35,12 @@ public class Main {
         System.out.println("8. PRINT_USERS");
         System.out.println("9. PRINT_COURSES");
         System.out.println("9. PRINT_CHEAPEST_COURSES");
-        System.out.println("10. PRINT QUIZ");
+        System.out.println("10. PRINT_QUIZ");
         System.out.println("11. ENROLL_STUDENT ID_STUDENT ID_COURSE");
         System.out.println("12. DISENROLL_STUDENT ID_STUDENT ID_COURSE");
         System.out.println("13. PRINT_STUDENT_COURSES ID_USER");
+        System.out.println("14. UPDATE_TEACHER ID NEW_SALARY");
+        System.out.println("15. EXIT");
 
 
 
@@ -158,6 +160,8 @@ public class Main {
                 case PRINT_COURSES:
                     platform.printAllCourses();
                     break;
+                case UPDATE_TEACHER:
+                    platform.updateTeacher(Integer.parseInt(commandParams[1]), Float.parseFloat(commandParams[2]));
                 case EXIT:
                     System.out.println("Program terminated. Exiting...");
                     audit.logToCSV("EXIT");

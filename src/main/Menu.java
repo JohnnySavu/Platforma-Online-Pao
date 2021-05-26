@@ -19,5 +19,6 @@ public enum Menu {
     DISENROLL_STUDENT,
     PRINT_COURSES,
     PRINT_STUDENT_COURSES,
+    UPDATE_TEACHER,
     EXIT
 }

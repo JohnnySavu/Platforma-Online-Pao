@@ -15,6 +15,8 @@ import java.util.List;
 
 public class TeacherRepository {
 
+    private TeacherRepository(){}
+
     public static void save(Teacher teacher){
         try(Connection connection = Database.getDatabase()){
             String query = "Insert into teachers (id, info) VALUES(?, ?)";

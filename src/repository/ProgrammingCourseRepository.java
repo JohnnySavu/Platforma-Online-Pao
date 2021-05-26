@@ -13,6 +13,8 @@ import java.util.List;
 
 public class ProgrammingCourseRepository {
 
+    private ProgrammingCourseRepository(){}
+
     public static void save(ProgrammingCourse course){
         try(Connection connection = Database.getDatabase()){
             String query = "Insert into programming_courses (id, info) VALUES(?, ?)";
@@ -58,8 +60,7 @@ public class ProgrammingCourseRepository {
                 float price= Float.parseFloat(lst.get(3));
                 String programmingLanguage = lst.get(4);
                 int idTeacher = Integer.parseInt(lst.get(5));
-                System.out.println(lst.get(6));
-                System.out.println("---------");
+
                 int noProjects = Integer.parseInt(lst.get(6));
                 List<String> projectRequirements = new ArrayList<>();
                 if(noProjects > 0)

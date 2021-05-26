@@ -49,7 +49,7 @@ public class Teacher extends User{
     @Override
     public String toString(){
         return "Teacher\n" + super.toString() + "rating : " + this.rating +"\n years of experience: "
-                + this.noYearsExperience + "\n";
+                + this.noYearsExperience + "\n" + "Salary " + this.salary + "\n";
     }
 
     @Override

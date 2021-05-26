@@ -15,6 +15,8 @@ import java.util.List;
 
 public class StudentRepository {
 
+    private StudentRepository(){}
+
     public static void save(Student student){
         try(Connection connection = Database.getDatabase()){
             String query = "Insert into students (id, info) VALUES(?, ?)";

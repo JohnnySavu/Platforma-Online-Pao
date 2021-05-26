@@ -43,6 +43,7 @@ public class Service {
         return instance;
     }
 
+
     private Service(){
         this.userSet = new TreeSet<>();
         this.courseSet = new TreeSet<>();
@@ -344,6 +345,21 @@ public class Service {
         if (Main.tip_salvare == 1){
             EnrollmentRepository.add(student.getId(), course.getId());
         }
+        else{
+            EnrollmentService.getInstance().addEnrollment(student.getId(), course.getId());
+        }
+    }
+    public void updateTeacher(int teacherId, float newSalary){
+        Teacher teacher = getTeacherById(teacherId);
+        if (teacher == null){
+            System.out.println("No such teacher");
+            return;
+        }
+
+        teacher.setSalary(newSalary);
+        if (Main.tip_salvare == 1){
+            TeacherRepository.update(teacher);
+        }
     }
 
     public void disenrollStudent(int studentId, int courseId){
@@ -390,6 +406,7 @@ public class Service {
 
                 programmingCourseService.readProgrammingCourse();
                 courseSet.addAll(ProgrammingCourseService.ProgrammingCourseList);
+                EnrollmentService.getInstance().loadEnrollment();
             }
 
         } catch (ParseException e) {
