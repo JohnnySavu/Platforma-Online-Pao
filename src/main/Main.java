@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Main {
 
-    public static int tip_salvare = 0;
+    public static int tip_salvare = 1;
 
     public static void main(String[] args) {
 
@@ -162,6 +162,7 @@ public class Main {
                     break;
                 case UPDATE_TEACHER:
                     platform.updateTeacher(Integer.parseInt(commandParams[1]), Float.parseFloat(commandParams[2]));
+                    break;
                 case EXIT:
                     System.out.println("Program terminated. Exiting...");
                     audit.logToCSV("EXIT");

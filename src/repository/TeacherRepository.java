@@ -94,7 +94,7 @@ public class TeacherRepository {
 
     public static void update(Teacher teacher){
         try(Connection connection = Database.getDatabase()){
-            String query = "update teachers set info = ? where id = ?";
+            String query = "update teachers set info = ? where id = " + teacher.getId();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             List<String> newRow = new ArrayList<>();
@@ -110,12 +110,12 @@ public class TeacherRepository {
 
             String info = WritingInFileService.getInstance().databaseWrite(newRow);
 
-            preparedStatement.setInt(1, teacher.getId());
-            preparedStatement.setString(2, info);
+            preparedStatement.setString(1, info);
             preparedStatement.execute();
 
 
         }catch(SQLException exception){
+            System.out.println(exception.getMessage());
             throw new RuntimeException("Something went wrong while updating");
         }
     }
